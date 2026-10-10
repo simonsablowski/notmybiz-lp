@@ -40,13 +40,13 @@ img{display:block;max-width:100%}
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--noise) center/512px repeat}
 
 /* ---------- page frame ---------- */
-.column{position:relative;z-index:1;display:flex;flex-direction:column;width:var(--column-width);max-width:100%;min-height:100vh;margin:0 auto;text-align:center}
+.column{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh;text-align:center}
 
 /* ---------- hero card ---------- */
 .hero{position:relative;display:flex;flex:1 0 auto;align-items:center;justify-content:center;min-height:100vh;background:var(--noise) center/512px repeat,var(--gradient)}
 /* Veil that fades away on load, revealing the gradient. */
 .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:var(--veil);animation:veil 1.5s ease .375s both}
-.hero-inner{position:relative;z-index:2;width:100%;padding:var(--pad-y) var(--pad-x);animation:rise .75s ease both}
+.hero-inner{position:relative;z-index:2;width:var(--column-width);max-width:100%;padding:var(--pad-y) var(--pad-x);animation:rise .75s ease both}
 .hero-inner>*{margin-top:var(--spacing);margin-bottom:var(--spacing)}
 .hero-inner>:first-child{margin-top:0}
 .hero-inner>:last-child{margin-bottom:0}
