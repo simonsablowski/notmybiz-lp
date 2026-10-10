@@ -1,0 +1,83 @@
+/* notmybiz.com – static site. Hand-written; no build step.
+   Every size is rem/em. The root font size steps down with the viewport,
+   which scales the whole layout (18pt > 13pt at 1680px > 11pt at 980px > 12pt at 736px). */
+
+/* ---------- fonts (self-hosted, latin + latin-ext) ---------- */
+@font-face{font-family:'Sora';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/sora-normal-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Sora';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/sora-normal-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/inter-normal-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/inter-normal-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ---------- tokens ---------- */
+:root{
+  --page:#24242b; --white:#fff; --icon:#555; --veil:#322d69;
+  --gradient:linear-gradient(45deg,#5132c9 16%,#b53391 100%);
+  --noise:url("data:image/svg+xml;charset=utf8,%3Csvg%20viewBox%3D%220%200%20512%20512%22%20width%3D%22512%22%20height%3D%22512%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%20%3Cfilter%20id%3D%22noise%22%3E%20%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.875%22%20result%3D%22noise%22%20%2F%3E%20%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220.15234375%200%200%200%200%200%200.125%200%200%200%200%200%200.1796875%200%200%200%200%200%200.30859375%200%22%20%2F%3E%20%3C%2Ffilter%3E%20%3Crect%20filter%3D%22url%28%23noise%29%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22transparent%22%20opacity%3D%221%22%20%2F%3E%3C%2Fsvg%3E");
+  --display:'Sora',sans-serif; --text:'Inter',sans-serif;
+  --column-width:55rem;
+  --pad-x:6rem; --pad-y:6rem; --spacing:2rem;
+}
+html{font-size:18pt}
+@media (max-width:1680px){html{font-size:13pt}}
+@media (max-width:980px){html{font-size:11pt}}
+@media (max-width:736px){
+  html{font-size:12pt}
+  :root{--pad-x:2rem; --pad-y:3.5rem}
+}
+@media (max-width:480px){:root{--spacing:1.75rem}}
+@media (max-width:360px){:root{--pad-x:1.5rem; --pad-y:2.625rem; --spacing:1.5rem}}
+
+/* ---------- reset ---------- */
+body,main,section,footer,h1,p,ul,li,a,img{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}
+main,section,footer{display:block}
+ul{list-style:none}
+*,::before,::after{box-sizing:border-box}
+body{position:relative;min-width:320px;min-height:100vh;overflow-x:hidden;overflow-wrap:break-word;line-height:1;background:var(--page);-webkit-text-size-adjust:none;text-size-adjust:none}
+a{color:inherit;text-decoration:underline;transition:color .25s}
+img{display:block;max-width:100%}
+
+/* Fixed noise texture over the dark page background. */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--noise) center/512px repeat}
+
+/* ---------- page frame ---------- */
+.column{position:relative;z-index:1;display:flex;flex-direction:column;width:var(--column-width);max-width:100%;min-height:100vh;margin:0 auto;text-align:center}
+
+/* ---------- hero card ---------- */
+.hero{position:relative;display:flex;flex:1 0 auto;align-items:center;justify-content:center;min-height:100vh;background:var(--noise) center/512px repeat,var(--gradient)}
+/* Veil that fades away on load, revealing the gradient. */
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:var(--veil);animation:veil 1.5s ease .375s both}
+.hero-inner{position:relative;z-index:2;width:100%;padding:var(--pad-y) var(--pad-x);animation:rise .75s ease both}
+.hero-inner>*{margin-top:var(--spacing);margin-bottom:var(--spacing)}
+.hero-inner>:first-child{margin-top:0}
+.hero-inner>:last-child{margin-bottom:0}
+
+.portrait{width:10rem;height:auto;margin-left:auto;margin-right:auto;animation:zoom-out .75s ease both}
+
+.title{color:var(--white);font:500 4em/1.25 var(--display);letter-spacing:-.075rem}
+.lead{color:var(--white);font:400 1em/2.125 var(--text);letter-spacing:.025rem}
+
+.icons{display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;font-size:2em;margin-top:2.5rem}
+.icons a{display:flex;align-items:center;justify-content:center;width:2em;height:2em;border-radius:100%;background:var(--white);transition:transform .25s ease}
+.icons a:hover,.icons a:focus-visible{transform:translateY(-11.25%)}
+.icons svg{display:block;width:60%;height:60%;fill:var(--icon)}
+
+@media (max-width:736px){
+  .title{font-size:2.5em;line-height:1.125;letter-spacing:-.065625rem}
+  .lead{letter-spacing:.021875rem}
+  .icons{margin-top:1.875rem}
+}
+@media (max-width:360px){.icons{gap:1.5rem}}
+
+/* ---------- footer ---------- */
+.footer{padding:4rem var(--pad-x)}
+.footer p{color:rgba(255,255,255,.51);font:400 .875em/2.125 var(--text);letter-spacing:.025rem}
+@media (max-width:736px){.footer{padding-top:var(--pad-y);padding-bottom:var(--pad-y)}}
+
+/* ---------- load animation ---------- */
+@keyframes veil{from{background-color:var(--veil)}to{background-color:transparent}}
+@keyframes rise{from{opacity:0;transform:translateY(.5rem)}to{opacity:1;transform:none}}
+@keyframes zoom-out{from{opacity:0;transform:scale(1.1)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .hero::after,.hero-inner,.portrait{animation:none}
+  .hero::after{opacity:0}
+}
